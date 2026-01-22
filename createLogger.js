@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import { getTodayDate, getTimeStamp } from "./utils/date.js"
 import { toCSVRow } from "./utils/csv.js"
+import { logToConsole } from "./utils/logToConsole.js"
 
 export function createLogger({logDir = "logs"}) {
 	const resolveDir = path.isAbsolute(logDir)
@@ -44,10 +45,28 @@ export function createLogger({logDir = "logs"}) {
 		})
 	}
 
+	let tag = ""
+	
 	return {
-		info: (msg, meta) => writeLog("[INFO]", msg, meta),
-		warn: (msg, meta) => writeLog("[WARN]", msg, meta),
-		error: (msg, meta) => writeLog("[ERROR]", msg, meta),
-		debug: (msg, meta) => writeLog("[DEBUG]", msg, meta)
+		info: (msg, meta) => {
+			tag = "[INFO]"
+			logToConsole(tag, msg, meta)
+			writeLog(tag, msg, meta)
+		},
+		warn: (msg, meta) => {
+			tag = "[WARNING]"
+			logToConsole(tag, msg, meta)
+			writeLog(tag, msg, meta)
+		},
+		error: (msg, meta) => {
+			tag = "[ERROR]"
+			logToConsole(tag, msg, meta)
+			writeLog(tag, msg, meta)
+		},
+		debug: (msg, meta) => {
+			tag = "[DEBUG]"
+			logToConsole(tag, msg, meta)
+			writeLog(tag, msg, meta)
+		}
 	}
 }
