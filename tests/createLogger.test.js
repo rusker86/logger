@@ -52,6 +52,18 @@ test("Logger Creation", async (t) => {
 		assert(fs.existsSync(absolutePath), "Should create logs at absolute path")
 		cleanupTestDir()
 	})
+
+	await t.test("should support callerInfo option as true (default)", () => {
+		const logger = createLogger({ logDir: testLogDir, callerInfo: true })
+		assert(logger !== null, "Logger should be created with callerInfo enabled")
+		cleanupTestDir()
+	})
+
+	await t.test("should support callerInfo option as false", () => {
+		const logger = createLogger({ logDir: testLogDir, callerInfo: false })
+		assert(logger !== null, "Logger should be created with callerInfo disabled")
+		cleanupTestDir()
+	})
 })
 
 test("Logger Methods", async (t) => {
@@ -155,6 +167,22 @@ test("Logger Methods", async (t) => {
 				const logFile = path.join(testLogDir, `${getTodayDate()}.csv`)
 				const content = fs.readFileSync(logFile, "utf8")
 				assert(content.includes(".js:"), "Log should include caller file and line")
+				cleanupTestDir()
+				resolve()
+			}, 100)
+		})
+	})
+
+	await t.test("should NOT include caller information when disabled", async () => {
+		const logger = createLogger({ logDir: testLogDir, callerInfo: false })
+		logger.info("Test without caller info")
+		
+		return new Promise(resolve => {
+			setTimeout(() => {
+				const logFile = path.join(testLogDir, `${getTodayDate()}.csv`)
+				const content = fs.readFileSync(logFile, "utf8")
+				assert(!content.includes(".js:"), "Log should NOT include caller file and line")
+				assert(content.includes("Test without caller info"), "Log should include message")
 				cleanupTestDir()
 				resolve()
 			}, 100)

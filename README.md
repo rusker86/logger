@@ -69,12 +69,14 @@ npm run test:verbose
 
 ### Test Coverage
 
-The test suite includes **69 tests** covering:
+The test suite includes **79 tests** covering:
 - ✅ Date utilities (getTodayDate, getTimeStamp)
 - ✅ CSV formatting (toCSVRow)
 - ✅ Caller information extraction (getCallerInfo)
 - ✅ Console logging with colors
+- ✅ File stream writing (NEW)
 - ✅ Logger creation and initialization
+- ✅ Optional caller information (NEW)
 - ✅ All logging methods (info, warn, error, debug)
 - ✅ File operations and organization
 - ✅ Metadata handling
@@ -94,7 +96,8 @@ logger/
     ├── csv.js                # CSV format utilities
     ├── date.js               # Date and timestamp handling utilities
     ├── logToConsole.js       # Console output with color formatting
-    └── callerInfo.js         # Caller information extraction
+    ├── callerInfo.js         # Caller information extraction
+    └── writer.js             # File stream writer utilities
 ```
 
 ## Usage
@@ -105,11 +108,30 @@ logger/
 npm run start
 ```
 
-### Using the logger in your code
+### Creating a logger instance
 
 ```javascript
-import { logger } from "./index.js"
+import { createLogger } from "./createLogger.js"
 
+// Create logger with default options (callerInfo enabled)
+const logger = createLogger()
+
+// Create logger with custom directory
+const logger = createLogger({ logDir: "./mylogs" })
+
+// Create logger without caller information in messages
+const logger = createLogger({ callerInfo: false })
+
+// Combine options
+const logger = createLogger({ 
+	logDir: "./logs",
+	callerInfo: true  // Default: includes file name and line number
+})
+```
+
+### Using the logger
+
+```javascript
 // Log information
 logger.info("Server started")
 
@@ -133,6 +155,11 @@ logger.warn(message: string, meta?: object)
 logger.error(message: string, meta?: object)
 logger.debug(message: string, meta?: object)
 ```
+
+### Options
+
+- `logDir` (string): Directory where log files will be saved. Defaults to `"logs"`. Can be absolute or relative path.
+- `callerInfo` (boolean): Include caller file name and line number in log messages. Defaults to `true`.
 
 ## Log Format
 
@@ -196,6 +223,14 @@ Extracts caller information from the call stack:
 - `getCallerInfo()`: Returns an object with `file` and `line` properties
 - Useful for debugging to identify the exact location where a log was called
 - Returns `{file: string, line: number}`
+
+### utils/writer.js
+Manages file stream writing for log files:
+- `createWriter(filePath)`: Creates a writer instance for appending to files
+- `write(line)`: Writes content to the file stream
+- `close()`: Properly closes the file stream
+- Uses append mode to preserve existing log entries
+- Returns `{write, close}` object
 
 ## Licencia
 

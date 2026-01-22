@@ -4,7 +4,7 @@ Complete test suite for the Logger application using Node.js built-in testing fr
 
 ## Test Structure
 
-The test suite is organized into 5 test files covering all modules:
+The test suite is organized into 6 test files covering all modules:
 
 ### 1. `date.test.js` - Date Utilities Tests
 Tests for date and timestamp functions:
@@ -54,14 +54,26 @@ Tests for console output with color formatting:
   - JSON formatting
   - Color coding
 
-### 5. `createLogger.test.js` - Logger Creation Tests
+### 5. `writer.test.js` - Writer Utilities Tests (NEW)
+Tests for file stream writing:
+- `createWriter()` - Creates file stream writer
+  - Method availability (write, close)
+  - File creation and writing
+  - Append mode functionality
+  - Stream closing
+  - Multiple writes handling
+  - Absolute path support
+
+### 6. `createLogger.test.js` - Logger Creation Tests
 Tests for logger factory and logging methods:
 - `createLogger()` - Creates logger instance
-  - Logger creation
+  - Logger creation with default options
   - Custom directory support
   - Method availability
   - Directory creation
   - Absolute path handling
+  - callerInfo option (true/false) - NEW
+  - Logger with caller information disabled - NEW
 
 - Logger methods: `info()`, `warn()`, `error()`, `debug()`
   - Log file creation
@@ -69,6 +81,7 @@ Tests for logger factory and logging methods:
   - CSV format compliance
   - Metadata support
   - Caller information inclusion
+  - Caller information optional
   - Multiple log handling
   - ISO 8601 timestamp inclusion
 
@@ -96,13 +109,14 @@ node --test tests/date.test.js
 
 ## Test Coverage
 
-- **Date Utilities**: 10 tests
-- **CSV Utilities**: 13 tests
-- **Caller Info**: 6 tests
-- **Console Logging**: 14 tests
-- **Logger Creation**: 20 tests
+- **Date Utilities**: 9 tests
+- **CSV Utilities**: 14 tests
+- **Caller Info**: 7 tests
+- **Console Logging**: 13 tests
+- **Writer Utilities**: 6 tests (NEW)
+- **Logger Creation**: 29 tests (updated with new tests)
 
-**Total: 63 tests**
+**Total: 79 tests**
 
 ## Test Results
 
@@ -117,11 +131,14 @@ All tests verify:
 - ✅ Timestamp accuracy
 - ✅ Metadata support
 - ✅ Directory creation and management
+- ✅ Stream management (NEW)
+- ✅ Optional caller information (NEW)
 
 ## Notes
 
-- Tests use Node.js built-in `assert` module
+- Tests use Node.js built-in `assert` module and `test` function
 - Test files use ES6 modules (matching project type)
-- Async tests use callbacks and `done()` parameter
+- Async tests use Promises
 - Temporary test directory `.test-logs` is created and cleaned up automatically
-- Tests wait for asynchronous operations (100ms timeout for file operations)
+- Tests wait for asynchronous operations (50-100ms timeout for file operations)
+

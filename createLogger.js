@@ -4,88 +4,76 @@ import { getTodayDate, getTimeStamp } from "./utils/date.js"
 import { toCSVRow } from "./utils/csv.js"
 import { logToConsole } from "./utils/logToConsole.js"
 import { getCallerInfo } from "./utils/callerInfo.js"
-import { create } from "domain"
+import { createWriter } from "./utils/writer.js"
 
-export function createLogger({logDir = "logs"}) {
+let handlersRegistered = false
+
+export function createLogger({logDir = "logs", callerInfo = true}) {
 	const resolveDir = path.isAbsolute(logDir)
-		? logDir
-		: path.join(process.cwd(), logDir)
-
+	? logDir
+	: path.join(process.cwd(), logDir)
+	
+	
+	let closed = false
+	
 
 	if(!fs.existsSync(resolveDir)) {
 		fs.mkdirSync(resolveDir, { recursive: true })
 	}
 
+	const writer = createWriter(getLogFilePath())
+
+	function closeLogger() {
+		if(closed) return
+		closed = true
+
+		writer.close()
+	}
+	
 	function getLogFilePath() {
 		const date = getTodayDate()
 		return path.join(resolveDir, `${date}.csv`)
 	}
 
-	function writeLog(level, message, meta = {}) {
-		const filePath = getLogFilePath()
-
-		let row = ""
-
-		if(Object.keys(meta).kength === 0) {
-			row = toCSVRow([
-				getTimeStamp(),
-				level,
-				message
-			])
-		} else {
-			row = toCSVRow([
+	
+	function writeLog(level, message, meta) {
+		writer.write(
+			toCSVRow([
 				getTimeStamp(),
 				level,
 				message,
 				meta
 			])
-		}
-
-
-		fs.appendFile(filePath, row, err => {
-			if(err) console.error("Error escribiendo el log: ", err)
-		})
+		)
 	}
 
 	let tag = ""
+	if(!handlersRegistered) {
+		process.on("SIGINT", () => {
+			closeLogger()
+			process.exit()
+		})
+
+		process.on("exit", closeLogger)
+
+		handlersRegistered = true
+	}
 	
+
+	function log(tag, msg, meta) {
+		const caller = callerInfo ? getCallerInfo() : null
+
+		const fullMsg = 
+		callerInfo ? `${msg} (${caller.file}:${caller.line})` : `${msg}`
+	
+		logToConsole(tag, fullMsg, meta)
+		writeLog(tag, fullMsg, meta)
+	}
+
 	return {
-		info: (msg, meta) => {
-			tag = "[INFO]"
-
-			const caller = getCallerInfo()
-			const fullMsg = `${msg} (${caller.file}:${caller.line})`
-
-			logToConsole(tag, fullMsg, meta)
-			writeLog(tag, fullMsg, meta)
-		},
-		warn: (msg, meta) => {
-			tag = "[WARNING]"
-
-			const caller = getCallerInfo()
-			const fullMsg = `${msg} (${caller.file}:${caller.line})`
-			
-			logToConsole(tag, fullMsg, meta)
-			writeLog(tag, fullMsg, meta)
-		},
-		error: (msg, meta) => {
-			tag = "[ERROR]"
-
-			const caller = getCallerInfo()
-			const fullMsg = `${msg} (${caller.file}:${caller.line})`
-
-
-			logToConsole(tag, fullMsg, meta)
-			writeLog(tag, fullMsg, meta)
-		},
-		debug: (msg, meta) => {
-			tag = "[DEBUG]"
-
-			const caller = getCallerInfo()
-			const fullMsg = `${msg} (${caller.file}:${caller.line})`
-
-			logToConsole(tag, fullMsg, meta)
-			writeLog(tag, fullMsg, meta)
-		}
+		info: (msg, meta) => log("[INFO]", msg, meta),
+		warn: (msg, meta) => log("[WARNING]", msg, meta),
+		error: (msg, meta) => log("[ERROR]", msg, meta),
+		debug: (msg, meta) => log("[DEBUG]", msg, meta)
 	}
 }
