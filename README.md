@@ -28,18 +28,6 @@ logger/
     └── date.js           # Utilidades para manejo de fechas y timestamps
 ```
 
-## Instalación
-
-1. Clona o descarga el proyecto
-2. Navega al directorio del proyecto:
-   ```bash
-   cd logger
-   ```
-3. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-
 ## Uso
 
 ### Iniciar la aplicación
