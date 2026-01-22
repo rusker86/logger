@@ -14,6 +14,9 @@ Logger is a Node.js application that provides a lightweight and functional loggi
 - ✅ Support for additional metadata
 - ✅ Automatic directory handling
 - ✅ Robust CSV format with special character escaping
+- ✅ **NEW v2.0.0**: Colored console output with Chalk library
+- ✅ **NEW v2.0.0**: Real-time console logging while writing to CSV files
+- ✅ **NEW v2.0.0**: Color-coded log levels (blue for INFO, gray for DEBUG, yellow for WARNING, red for ERROR)
 
 ## Installation
 
@@ -42,18 +45,22 @@ npm install
 npm install git+https://github.com/rusker86/logger.git
 ```
 
-Note: This project uses only Node.js built-in modules and has no external dependencies.
+### Dependencies
+
+The project uses the following dependencies:
+- **chalk**: ^5.6.2 - For colored terminal output
 
 ## Project Structure
 
 ```
 logger/
-├── createLogger.js       # Logger factory function
-├── index.js              # Main entry point
-├── package.json          # Project dependencies and configuration
+├── createLogger.js           # Logger factory function
+├── index.js                  # Main entry point
+├── package.json              # Project dependencies and configuration
 └── utils/
-    ├── csv.js            # CSV format utilities
-    └── date.js           # Date and timestamp handling utilities
+    ├── csv.js                # CSV format utilities
+    ├── date.js               # Date and timestamp handling utilities
+    └── logToConsole.js       # Console output with color formatting
 ```
 
 ## Usage
@@ -109,12 +116,32 @@ Each line contains:
 2026-01-22T15:30:46.456Z,[WARN],Unusual condition detected,{"userId":123}
 2026-01-22T15:30:47.789Z,[ERROR],An error occurred,{"code":500}
 ```
+Console Output
 
-## Dependencies
+Starting from v2.0.0, logs are displayed in the console with color coding for better visibility:
 
+- 🔵 **[INFO]** - Blue
+- 🟡 **[WARNING]** - Yellow  
+- 🔴 **[ERROR]** - Red
+- ⚫ **[DEBUG]** - Gray
+
+Example console output:
+```
+[INFO], Server started,
+[WARNING], Unusual condition detected, {"userId":123}
+[ERROR], An error occurred, {"code":500}
+```
+
+Logs are simultaneously written to CSV files and displayed in the console with real-time color formatting
 This project has no external dependencies. It uses only native Node.js modules.
 
 ## Main Modules
+
+### utils/logToConsole.js
+Utility for displaying logs in the terminal with color formatting using Chalk:
+- Maps log levels to specific colors
+- Automatically formats messages and metadata for console display
+- Enhances log visibility with color-coded severity levels
 
 ### createLogger.js / index.js
 Central module that exports the `logger` object with four logging levels. It manages the creation of daily log files and record writing.
