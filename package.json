@@ -1,10 +1,16 @@
 {
-  "name": "logger-js",
+  "name": "@rusker86/logger",
   "version": "1.0.0",
-  "description": "Configurable CSV logger for Node.js",
   "main": "index.js",
   "type": "module",
-  "keywords": ["logger", "csv", "node"],
+  "description": "Logger CSV configurable para Node.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rusker86/logger.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "author": "Rusker",
   "license": "MIT"
 }

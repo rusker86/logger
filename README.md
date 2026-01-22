@@ -39,7 +39,7 @@ npm install
 
 #### OR
 ```bash
-npm install logger-js
+npm install git+https://github.com/rusker86/logger.git
 ```
 
 Note: This project uses only Node.js built-in modules and has no external dependencies.
