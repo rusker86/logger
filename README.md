@@ -21,8 +21,6 @@ Logger es una aplicación Node.js que proporciona un sistema de logging ligero y
 logger/
 ├── logger.js             # Módulo principal de logging
 ├── package.json          # Dependencias y configuración del proyecto
-├── logs/                 # Directorio donde se guardan los archivos de log
-│   └── 2026-01-22.csv   # Archivo de log diario (formato: YYYY-MM-DD.csv)
 └── utils/
     ├── csv.js            # Utilidades para formato CSV
     └── date.js           # Utilidades para manejo de fechas y timestamps
