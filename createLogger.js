@@ -3,6 +3,8 @@ import path from "path"
 import { getTodayDate, getTimeStamp } from "./utils/date.js"
 import { toCSVRow } from "./utils/csv.js"
 import { logToConsole } from "./utils/logToConsole.js"
+import { getCallerInfo } from "./utils/callerInfo.js"
+import { create } from "domain"
 
 export function createLogger({logDir = "logs"}) {
 	const resolveDir = path.isAbsolute(logDir)
@@ -50,23 +52,40 @@ export function createLogger({logDir = "logs"}) {
 	return {
 		info: (msg, meta) => {
 			tag = "[INFO]"
-			logToConsole(tag, msg, meta)
-			writeLog(tag, msg, meta)
+
+			const caller = getCallerInfo()
+			const fullMsg = `${msg} (${caller.file}:${caller.line})`
+
+			logToConsole(tag, fullMsg, meta)
+			writeLog(tag, fullMsg, meta)
 		},
 		warn: (msg, meta) => {
 			tag = "[WARNING]"
-			logToConsole(tag, msg, meta)
-			writeLog(tag, msg, meta)
+
+			const caller = getCallerInfo()
+			const fullMsg = `${msg} (${caller.file}:${caller.line})`
+			
+			logToConsole(tag, fullMsg, meta)
+			writeLog(tag, fullMsg, meta)
 		},
 		error: (msg, meta) => {
 			tag = "[ERROR]"
-			logToConsole(tag, msg, meta)
-			writeLog(tag, msg, meta)
+
+			const caller = getCallerInfo()
+			const fullMsg = `${msg} (${caller.file}:${caller.line})`
+
+
+			logToConsole(tag, fullMsg, meta)
+			writeLog(tag, fullMsg, meta)
 		},
 		debug: (msg, meta) => {
 			tag = "[DEBUG]"
-			logToConsole(tag, msg, meta)
-			writeLog(tag, msg, meta)
+
+			const caller = getCallerInfo()
+			const fullMsg = `${msg} (${caller.file}:${caller.line})`
+
+			logToConsole(tag, fullMsg, meta)
+			writeLog(tag, fullMsg, meta)
 		}
 	}
 }
