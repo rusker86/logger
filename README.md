@@ -17,6 +17,7 @@ Logger is a Node.js application that provides a lightweight and functional loggi
 - ✅ **NEW v2.0.0**: Colored console output with Chalk library
 - ✅ **NEW v2.0.0**: Real-time console logging while writing to CSV files
 - ✅ **NEW v2.0.0**: Color-coded log levels (blue for INFO, gray for DEBUG, yellow for WARNING, red for ERROR)
+- ✅ **NEW v2.1.0**: Caller information tracking (file name and line number)
 
 ## Installation
 
@@ -50,6 +51,38 @@ npm install git+https://github.com/rusker86/logger.git
 The project uses the following dependencies:
 - **chalk**: ^5.6.2 - For colored terminal output
 
+## Testing
+
+The project includes a comprehensive test suite using Node.js built-in testing framework.
+
+### Running Tests
+
+Run all tests:
+```bash
+npm test
+```
+
+Run tests with verbose output:
+```bash
+npm run test:verbose
+```
+
+### Test Coverage
+
+The test suite includes **69 tests** covering:
+- ✅ Date utilities (getTodayDate, getTimeStamp)
+- ✅ CSV formatting (toCSVRow)
+- ✅ Caller information extraction (getCallerInfo)
+- ✅ Console logging with colors
+- ✅ Logger creation and initialization
+- ✅ All logging methods (info, warn, error, debug)
+- ✅ File operations and organization
+- ✅ Metadata handling
+- ✅ Edge cases and error handling
+
+See [tests/README.md](tests/README.md) for detailed test documentation.
+
+
 ## Project Structure
 
 ```
@@ -60,7 +93,8 @@ logger/
 └── utils/
     ├── csv.js                # CSV format utilities
     ├── date.js               # Date and timestamp handling utilities
-    └── logToConsole.js       # Console output with color formatting
+    ├── logToConsole.js       # Console output with color formatting
+    └── callerInfo.js         # Caller information extraction
 ```
 
 ## Usage
@@ -156,6 +190,12 @@ Utility for converting arrays of values to valid CSV format, with automatic hand
 Functions to get:
 - `getTodayDate()`: Current date in YYYY-MM-DD format
 - `getTimeStamp()`: Timestamp actual en formato ISO 8601
+
+### utils/callerInfo.js
+Extracts caller information from the call stack:
+- `getCallerInfo()`: Returns an object with `file` and `line` properties
+- Useful for debugging to identify the exact location where a log was called
+- Returns `{file: string, line: number}`
 
 ## Licencia
 

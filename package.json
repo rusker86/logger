@@ -1,9 +1,14 @@
 {
   "name": "logger",
   "version": "2.1.0",
-  "description": "",
+  "description": "A simple and efficient logging system that saves records in CSV format with timestamps and severity levels.",
   "main": "index.js",
   "type": "module",
+  "scripts": {
+    "test": "node --test tests/**/*.test.js",
+    "test:watch": "node --test tests/**/*.test.js --watch",
+    "test:verbose": "node --test tests/**/*.test.js --verbose"
+  },
   "dependencies": {
     "chalk": "^5.6.2"
   }
