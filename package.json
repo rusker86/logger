@@ -1,10 +1,10 @@
 {
-  "name": "logger",
+  "name": "logger-js",
   "version": "1.0.0",
-  "description": "Logger CSV configurable para Node.js",
+  "description": "Configurable CSV logger for Node.js",
   "main": "index.js",
   "type": "module",
   "keywords": ["logger", "csv", "node"],
-  "author": "Tu nombre",
+  "author": "Rusker",
   "license": "MIT"
 }

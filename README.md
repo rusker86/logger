@@ -1,60 +1,90 @@
 # Logger
 
-Un sistema de logging simple y eficiente que guarda registros en formato CSV con timestamp y niveles de severidad.
+A simple and efficient logging system that saves records in CSV format with timestamps and severity levels.
 
-## Descripción
+## Description
 
-Logger es una aplicación Node.js que proporciona un sistema de logging ligero y funcional. Registra mensajes con diferentes niveles de severidad (INFO, WARN, ERROR, DEBUG) en archivos CSV organizados por fecha.
+Logger is a Node.js application that provides a lightweight and functional logging system. It records messages with different severity levels (INFO, WARN, ERROR, DEBUG) in CSV files organized by date.
 
-## Características
+## Features
 
-- ✅ Logging con múltiples niveles (INFO, WARN, ERROR, DEBUG)
-- ✅ Archivos CSV organizados por fecha
-- ✅ Timestamps en formato ISO 8601
-- ✅ Soporte para metadatos adicionales
-- ✅ Manejo automático de directorios
-- ✅ Formato CSV robusto con escape de caracteres especiales
+- ✅ Logging with multiple levels (INFO, WARN, ERROR, DEBUG)
+- ✅ CSV files organized by date
+- ✅ Timestamps in ISO 8601 format
+- ✅ Support for additional metadata
+- ✅ Automatic directory handling
+- ✅ Robust CSV format with special character escaping
 
-## Estructura del Proyecto
+## Installation
+
+### Prerequisites
+
+- Node.js 12 or higher
+- npm (included with Node.js)
+
+### Steps
+
+1. Clone or download this repository:
+
+```bash
+git clone <repository-url>
+cd logger
+```
+
+2. Install dependencies (if any):
+
+```bash
+npm install
+```
+
+#### OR
+```bash
+npm install logger-js
+```
+
+Note: This project uses only Node.js built-in modules and has no external dependencies.
+
+## Project Structure
 
 ```
 logger/
-├── logger.js             # Módulo principal de logging
-├── package.json          # Dependencias y configuración del proyecto
+├── createLogger.js       # Logger factory function
+├── index.js              # Main entry point
+├── package.json          # Project dependencies and configuration
 └── utils/
-    ├── csv.js            # Utilidades para formato CSV
-    └── date.js           # Utilidades para manejo de fechas y timestamps
+    ├── csv.js            # CSV format utilities
+    └── date.js           # Date and timestamp handling utilities
 ```
 
-## Uso
+## Usage
 
-### Iniciar la aplicación
+### Starting the application
 
 ```bash
 npm run start
 ```
 
-### Usar el logger en tu código
+### Using the logger in your code
 
 ```javascript
-import { logger } from "./logger.js"
+import { logger } from "./index.js"
 
-// Registrar información
-logger.info("Servidor iniciado")
+// Log information
+logger.info("Server started")
 
-// Registrar advertencias
-logger.warn("Se detectó una condición inusual", { userId: 123 })
+// Log warnings
+logger.warn("Unusual condition detected", { userId: 123 })
 
-// Registrar errores
-logger.error("Ocurrió un error", { code: 500 })
+// Log errors
+logger.error("An error occurred", { code: 500 })
 
-// Registrar información de depuración
+// Log debug information
 logger.debug("Variable x = 42", { variable: 42 })
 ```
 
-### Signature de métodos
+### Method Signature
 
-Todos los métodos de logger aceptan un mensaje y metadatos opcionales:
+All logger methods accept a message and optional metadata:
 
 ```javascript
 logger.info(message: string, meta?: object)
@@ -63,41 +93,41 @@ logger.error(message: string, meta?: object)
 logger.debug(message: string, meta?: object)
 ```
 
-## Formato de logs
+## Log Format
 
-Los logs se guardan en archivos CSV en el directorio `logs/` con el nombre `YYYY-MM-DD.csv`.
+Logs are saved in CSV files in the `logs/` directory with the filename `YYYY-MM-DD.csv`.
 
-Cada línea contiene:
-- **Timestamp**: Hora exacta en formato ISO 8601
-- **Nivel**: [INFO], [WARN], [ERROR] o [DEBUG]
-- **Mensaje**: Texto descriptivo del evento
-- **Metadatos**: Datos adicionales en formato JSON (opcional)
+Each line contains:
+- **Timestamp**: Exact time in ISO 8601 format
+- **Level**: [INFO], [WARN], [ERROR], or [DEBUG]
+- **Message**: Descriptive text of the event
+- **Metadata**: Additional data in JSON format (optional)
 
-**Ejemplo:**
+**Example:**
 ```
-2026-01-22T15:30:45.123Z,[INFO],Servidor iniciado,
-2026-01-22T15:30:46.456Z,[WARN],Se detectó una condición inusual,{"userId":123}
-2026-01-22T15:30:47.789Z,[ERROR],Ocurrió un error,{"code":500}
+2026-01-22T15:30:45.123Z,[INFO],Server started,
+2026-01-22T15:30:46.456Z,[WARN],Unusual condition detected,{"userId":123}
+2026-01-22T15:30:47.789Z,[ERROR],An error occurred,{"code":500}
 ```
 
-## Dependencias
+## Dependencies
 
-Este proyecto no tiene dependencias externas. Utiliza únicamente módulos nativos de Node.js.
+This project has no external dependencies. It uses only native Node.js modules.
 
-## Módulos principales
+## Main Modules
 
-### logger.js
-Módulo central que exporta el objeto `logger` con los cuatro niveles de logging. Gestiona la creación de archivos de log diarios y la escritura de registros.
+### createLogger.js / index.js
+Central module that exports the `logger` object with four logging levels. It manages the creation of daily log files and record writing.
 
 ### utils/csv.js
-Utilidad para convertir arrays de valores a formato CSV válido, con manejo automático de:
-- Valores nulos o undefined
-- Objetos (convertidos a JSON)
-- Caracteres especiales (comas, comillas, saltos de línea)
+Utility for converting arrays of values to valid CSV format, with automatic handling of:
+- Null or undefined values
+- Objects (converted to JSON)
+- Special characters (commas, quotes, line breaks)
 
 ### utils/date.js
-Funciones para obtener:
-- `getTodayDate()`: Fecha actual en formato YYYY-MM-DD
+Functions to get:
+- `getTodayDate()`: Current date in YYYY-MM-DD format
 - `getTimeStamp()`: Timestamp actual en formato ISO 8601
 
 ## Licencia
