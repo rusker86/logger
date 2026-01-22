@@ -1,2 +1,1 @@
-// index.js
-export { createLogger } from "./createLogger.js"
+export {createLogger } from "./createLogger.js"
