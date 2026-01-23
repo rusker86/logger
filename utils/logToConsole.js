@@ -11,5 +11,5 @@ export function logToConsole(tag, msg, meta) {
 	const colorFn = colors[tag] || ((x) => x)
 
 
-	console.log(meta ? colorFn(`${tag}, ${msg}, ${JSON.stringify(meta)}`) : colorFn(`${tag}, ${msg},`))
+	console.log(meta ? colorFn(`${tag}; ${msg}; ${JSON.stringify(meta)}`) : colorFn(`${tag}; ${msg},`))
 }

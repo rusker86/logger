@@ -5,22 +5,22 @@ import { toCSVRow } from "../utils/csv.js"
 test("CSV Utilities", async (t) => {
 	await t.test("toCSVRow() should convert simple values to CSV row", () => {
 		const result = toCSVRow(["test", "value", "data"])
-		assert.strictEqual(result, "test,value,data\n", "Should join values with commas and newline")
+		assert.strictEqual(result, "test;value;data\n", "Should join values with semicolons and newline")
 	})
 
 	await t.test("toCSVRow() should handle null values", () => {
 		const result = toCSVRow(["test", null, "data"])
-		assert.strictEqual(result, "test,,data\n", "Should convert null to empty string")
+		assert.strictEqual(result, "test;;data\n", "Should convert null to empty string")
 	})
 
 	await t.test("toCSVRow() should handle undefined values", () => {
 		const result = toCSVRow(["test", undefined, "data"])
-		assert.strictEqual(result, "test,,data\n", "Should convert undefined to empty string")
+		assert.strictEqual(result, "test;;data\n", "Should convert undefined to empty string")
 	})
 
 	await t.test("toCSVRow() should handle empty objects", () => {
 		const result = toCSVRow(["test", {}, "data"])
-		assert.strictEqual(result, "test,,data\n", "Should convert empty objects to empty string")
+		assert.strictEqual(result, "test;;data\n", "Should convert empty objects to empty string")
 	})
 
 	await t.test("toCSVRow() should handle objects", () => {
@@ -58,12 +58,12 @@ test("CSV Utilities", async (t) => {
 
 	await t.test("toCSVRow() should convert numbers to strings", () => {
 		const result = toCSVRow([123, 45.6, 0])
-		assert.strictEqual(result, "123,45.6,0\n", "Should convert numbers to strings")
+		assert.strictEqual(result, "123;45.6;0\n", "Should convert numbers to strings")
 	})
 
 	await t.test("toCSVRow() should handle booleans", () => {
 		const result = toCSVRow([true, false])
-		assert.strictEqual(result, "true,false\n", "Should convert booleans to strings")
+		assert.strictEqual(result, "true;false\n", "Should convert booleans to strings")
 	})
 
 	await t.test("toCSVRow() should remove quotes from values with quotes", () => {

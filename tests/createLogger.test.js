@@ -232,7 +232,7 @@ test("Logger Methods", async (t) => {
 				const content = fs.readFileSync(logFile, "utf8")
 				const lines = content.trim().split("\n")
 				assert(lines.length > 0, "Should have log lines")
-				assert(lines[0].includes(","), "Should be in CSV format with commas")
+				assert(lines[0].includes(";"), "Should be in CSV format with semicolons")
 				cleanupTestDir()
 				resolve()
 			}, 100)

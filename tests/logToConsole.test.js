@@ -23,6 +23,7 @@ test("Console Logging Utilities", async (t) => {
 		
 		console.log = originalLog
 		assert(output.includes("[INFO]"), "Should include tag in output")
+		assert(output.includes(";"), "Should separate with semicolon")
 	})
 
 	await t.test("logToConsole() should include message in output", () => {
@@ -34,6 +35,7 @@ test("Console Logging Utilities", async (t) => {
 		
 		console.log = originalLog
 		assert(output.includes("Test message"), "Should include message in output")
+		assert(output.includes(";"), "Should separate with semicolon")
 	})
 
 	await t.test("logToConsole() should handle INFO level", () => {
@@ -90,6 +92,7 @@ test("Console Logging Utilities", async (t) => {
 		
 		console.log = originalLog
 		assert(output.includes("userId"), "Should include metadata in output")
+		assert(output.includes(";"), "Should separate with semicolon")
 	})
 
 	await t.test("logToConsole() should format metadata as JSON", () => {
@@ -148,5 +151,6 @@ test("Console Logging Utilities", async (t) => {
 		console.log = originalLog
 		assert(output.includes("[INFO]"), "Should include tag")
 		assert(output.includes("Simple message"), "Should include message")
+		assert(output.includes(";"), "Should separate with semicolon")
 	})
 })

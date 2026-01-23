@@ -21,5 +21,5 @@ export function toCSVRow(values) {
 		}
 		
 		return stringValue
-	}).join(",") + "\n"
+	}).join(";") + "\n"
 }
